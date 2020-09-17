@@ -1,14 +1,20 @@
 import React, {Component} from "react";
 import "./Dashboard.css";
+import moment from "moment";
 
 import {
+    Menu,
     Dropdown,
-    DropdownButton,
-    InputGroup,
-    FormControl,
-    Badge
-} from "react-bootstrap";
-import {BsSearch} from "react-icons/bs";
+    Button,
+    Input,
+    DatePicker,
+    TimePicker
+} from 'antd';
+
+import {
+    CaretUpOutlined,
+    SearchOutlined
+} from "@ant-design/icons";
 import {
     FaPlane,
     FaHelicopter,
@@ -16,44 +22,53 @@ import {
     FaForward,
     FaPlay,
     FaPause,
-    FaClock,
-    FaRegCalendar
+    FaClock
 } from "react-icons/fa";
 
 export default class Dashboard extends Component {
     state = {
-        title: "All Aircraft",
+        currentAircraft: "All Aircraft",
         playSpeed: 1,
-        play: false
+        play: false,
+        date: moment()
     }
 
     togglePlay = () => {
         this.setState(prevState => ({play: !prevState.play}));
     }
 
+    setDate = date => {
+        this.setState({date}, console.log(date));
+    }
+
     render() {
         return (
             <div id="dashboard">
-                <DropdownButton id={"dropdown-button-drop-up"} className="element" drop="up" variant="secondary" title={this.state.title}>
-                    <InputGroup className="mb-3">
-                        <InputGroup.Prepend>
-                            <InputGroup.Text id="basic-addon1"><BsSearch/></InputGroup.Text>
-                        </InputGroup.Prepend>
-
-                        <FormControl
-                        placeholder="Aircraft Code"
-                        aria-label="Aircraft"
-                        aria-describedby="basic-addon1"
-                        />
-                    </InputGroup>
-
-                    <Dropdown.Item eventKey="1"><FaPlane/> <FaHelicopter/> All Aircraft</Dropdown.Item>
-                    <Dropdown.Item eventKey="2"><FaPlane/> Airplanes</Dropdown.Item>
-                    <Dropdown.Item eventKey="3"><FaHelicopter/> Helicopters</Dropdown.Item>
-                </DropdownButton>
+                <Dropdown overlay={
+                    <Menu>
+                        <Menu.Item disabled>
+                            <Input placeholder="Search Aircraft By Code" prefix={<SearchOutlined/>}/>
+                        </Menu.Item>
+                        <Menu.Item onClick={() => this.setState({currentAircraft: "All Aircraft"})}>
+                            <FaPlane/> <FaHelicopter/> All Aircraft
+                        </Menu.Item>
+                        <Menu.Item onClick={() => this.setState({currentAircraft: "Airplanes"})}>
+                            <FaPlane/> Airplanes
+                        </Menu.Item>
+                        <Menu.Item onClick={() => this.setState({currentAircraft: "Helicopters"})}>
+                            <FaHelicopter/> Helicopters
+                        </Menu.Item>
+                    </Menu>
+                } trigger={['click']} placement="topLeft" arrow={true}>
+                    <h4>
+                        <Button style={{margin: 0}} onClick={e => e.preventDefault()}>
+                            {this.state.currentAircraft} <CaretUpOutlined style={{fontSize: "20px"}}/>
+                        </Button>
+                    </h4>
+                </Dropdown>
 
                 <h2 className="element">
-                    <Badge variant="secondary">x {this.state.playSpeed}</Badge>
+                    x {this.state.playSpeed}
                 </h2>
 
                 <h2 className="element">
@@ -63,13 +78,13 @@ export default class Dashboard extends Component {
                     <FaForward className="button"/>
                 </h2>
 
-                <h2 className="element">
-                    <FaClock/> 17:00:00
-                </h2>
-                
-                <h2 className="element">
-                    <FaRegCalendar/> 9/11/2020
-                </h2>
+                <h4 className="element">
+                    <TimePicker onChange={this.setDate} value={this.state.date}/>
+                </h4>
+                    
+                <h4 className="element">
+                    <DatePicker onChange={this.setDate} value={this.state.date}/>
+                </h4>
             </div>
         );
     }
