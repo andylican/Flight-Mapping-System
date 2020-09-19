@@ -37,8 +37,8 @@ export default class AircraftMap extends Component {
         return (
             <Map center={[45.4, -75.7]} zoom={4} zoomControl={false}>
                 <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                {this.state.aircraft.map(craft => (
-                    <Marker position={[craft.lat, craft.lng]} icon={craft.type === "airplane" ? planeIcon : helicopterIcon}/>
+                {this.state.aircraft.map((craft, index) => (
+                    <Marker key={index} position={[craft.lat, craft.lng]} icon={craft.type === "airplane" ? planeIcon : helicopterIcon}/>
                 ))}
                 <ZoomControl position="bottomright"/>
             </Map>

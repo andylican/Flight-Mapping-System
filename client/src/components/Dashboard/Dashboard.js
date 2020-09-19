@@ -22,7 +22,6 @@ import {
     FaForward,
     FaPlay,
     FaPause,
-    FaClock
 } from "react-icons/fa";
 
 export default class Dashboard extends Component {
