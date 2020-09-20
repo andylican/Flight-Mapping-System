@@ -2,10 +2,12 @@ import React, {Component} from "react";
 import "./AircraftMap.css";
 import { Map, Marker, TileLayer, ZoomControl } from 'react-leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { divIcon } from "leaflet";
+import { divIcon, Polyline } from "leaflet";
+import { getFlights } from "../../services/flights";
 
 export default class AircraftMap extends Component {
     state = {
+        flights: [],
         aircraft: [
             {
                 lat: 45.4,
@@ -21,7 +23,10 @@ export default class AircraftMap extends Component {
     }
 
     componentDidMount() {
-
+        getFlights().then(val => {
+            console.log(val);
+            this.setState({flights: val});
+        });
     }
 
     render() {
@@ -40,6 +45,9 @@ export default class AircraftMap extends Component {
                 {this.state.aircraft.map((craft, index) => (
                     <Marker key={index} position={[craft.lat, craft.lng]} icon={craft.type === "airplane" ? planeIcon : helicopterIcon}/>
                 ))}
+                {this.state.flights.map((flight, index) => {
+                    return <Polyline positions={flight}/>;
+                })}
                 <ZoomControl position="bottomright"/>
             </Map>
         );

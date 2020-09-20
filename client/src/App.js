@@ -1,17 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import AircraftMap from "./components/AircraftMap/AircraftMap";
 import Dashboard from "./components/Dashboard/Dashboard";
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <AircraftMap/>
-        <Dashboard/>
-      </div>
-    );
-  }
+function App() {
+  const [time, setTime] = useState(Date.now());
+  return (
+    <div className="App">
+      <AircraftMap time={time}/>
+      <Dashboard time={time}/>
+    </div>
+  );
 }
 
 export default App;
