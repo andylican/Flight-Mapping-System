@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import "./AircraftMap.css";
-import { Map, Marker, TileLayer, ZoomControl } from 'react-leaflet';
+import { Map, Marker, TileLayer, ZoomControl, Polyline } from 'react-leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { divIcon, Polyline } from "leaflet";
+import { divIcon } from "leaflet";
 import { getFlights } from "../../services/flights";
 
 export default class AircraftMap extends Component {
@@ -24,8 +24,7 @@ export default class AircraftMap extends Component {
 
     componentDidMount() {
         getFlights().then(val => {
-            console.log(val);
-            this.setState({flights: val});
+            this.setState({flights: val.data});
         });
     }
 
@@ -46,7 +45,9 @@ export default class AircraftMap extends Component {
                     <Marker key={index} position={[craft.lat, craft.lng]} icon={craft.type === "airplane" ? planeIcon : helicopterIcon}/>
                 ))}
                 {this.state.flights.map((flight, index) => {
-                    return <Polyline positions={flight}/>;
+                    return flight.legs.map((leg, i) => {
+                        return <Polyline positions={leg.path} key={`${index}-${i}`}/>
+                    });
                 })}
                 <ZoomControl position="bottomright"/>
             </Map>

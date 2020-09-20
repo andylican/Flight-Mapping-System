@@ -1,8 +1,7 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import AircraftMap from "./components/AircraftMap/AircraftMap";
 import Dashboard from "./components/Dashboard/Dashboard";
 import './App.css';
-import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 
 function App() {
   const [time, setTime] = useState(Date.now());

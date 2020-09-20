@@ -8,6 +8,8 @@ const Flight = require('./models/Flight').Flight;
 const mongoose = require('mongoose');
 const arc = require('arc');
 
+console.log(process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     console.log(err ? 'error connecting to mongodb':'connected to mongodb');
 });
@@ -24,7 +26,7 @@ const findLegAirports = async leg => {
     const dTime = new Date(leg.departure_time);
 
     const generator = new arc.GreatCircle({y: dep.latitude, x: dep.longitude}, {y: arr.latitude, x: arr.longitude});
-    const path = generator.Arc((aTime - dTime)/1000/60);
+    const path = generator.Arc((aTime - dTime)/1000/60).geometries[0].coords.map((([x, y]) => ([y, x])));
 
     return {
         ...leg,
@@ -32,7 +34,7 @@ const findLegAirports = async leg => {
         arrival_time: new Date(leg.arrival_time),
         departure_time: new Date(leg.departure_time),
         departure_airport: dep,
-        path: path.geometries[0].coords,
+        path: path,
     };
 }
 
