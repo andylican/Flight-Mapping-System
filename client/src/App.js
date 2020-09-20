@@ -1,20 +1,16 @@
-import React from 'react';
+import React, {Component, useState} from 'react';
+import AircraftMap from "./components/AircraftMap/AircraftMap";
+import Dashboard from "./components/Dashboard/Dashboard";
 import './App.css';
 import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 
 function App() {
-  const position = [51.505, -0.09];
+  const [time, setTime] = useState(Date.now());
   return (
-    <Map zoomControl={false} center={position} zoom={13}>
-      <ZoomControl position={"topright"}/>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-      />
-      <Marker position={position}>
-        <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-      </Marker>
-    </Map>
+    <div className="App">
+      <AircraftMap time={time}/>
+      <Dashboard time={time}/>
+    </div>
   );
 }
 

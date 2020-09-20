@@ -1,0 +1,25 @@
+#dashboard {
+    width: 100%;
+    background-color: #F2F2F2;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 12vh;
+    bottom: 0;
+    z-index: 1;
+}
+
+.button {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.element {
+    margin-left: 5%;
+}
