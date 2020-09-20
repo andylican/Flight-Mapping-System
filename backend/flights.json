@@ -1,0 +1,185 @@
+[
+    {
+      "id": "955184f6-8f49-48d2-9f6c-73924a0fe374",
+      "legs": [
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 03:00:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 05:30:32 -0400",
+          "meta": {
+            "callsign": "ACME138"
+          }
+        },
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 01:20:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 03:55:32 -0400",
+          "meta": {
+            "callsign": "ACME138"
+          }
+        },
+        {
+          "departure_airport": "CYYC",
+          "departure_time": "2020-09-15 01:20:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 02:45:32 -0400",
+          "meta": {
+            "callsign": "ACME138"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2b3c7284-1280-4a58-99dd-4ed54ce89b08",
+      "legs": [
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-14 23:09:32 -0400",
+          "arrival_airport": "CYYC",
+          "arrival_time": "2020-09-15 01:14:32 -0400",
+          "meta": {
+            "callsign": "ACME866"
+          }
+        }
+      ]
+    },
+    {
+      "id": "826c8379-50e4-4a43-a645-f0be797ead77",
+      "legs": [
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 02:18:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 04:48:32 -0400",
+          "meta": {
+            "callsign": "ACME159"
+          }
+        },
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 02:05:32 -0400",
+          "arrival_airport": "CYYC",
+          "arrival_time": "2020-09-15 04:10:32 -0400",
+          "meta": {
+            "callsign": "ACME159"
+          }
+        },
+        {
+          "departure_airport": "CYVR",
+          "departure_time": "2020-09-15 02:19:32 -0400",
+          "arrival_airport": "CYWG",
+          "arrival_time": "2020-09-15 04:54:32 -0400",
+          "meta": {
+            "callsign": "ACME159"
+          }
+        },
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-14 23:40:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 02:10:32 -0400",
+          "meta": {
+            "callsign": "ACME159"
+          }
+        },
+        {
+          "departure_airport": "CYYZ",
+          "departure_time": "2020-09-14 23:03:32 -0400",
+          "arrival_airport": "CYWG",
+          "arrival_time": "2020-09-15 01:33:32 -0400",
+          "meta": {
+            "callsign": "ACME159"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a5356caf-5418-4628-8af3-2274ed5838b5",
+      "legs": [
+        {
+          "departure_airport": "CYVR",
+          "departure_time": "2020-09-15 02:41:32 -0400",
+          "arrival_airport": "CYWG",
+          "arrival_time": "2020-09-15 05:16:32 -0400",
+          "meta": {
+            "callsign": "ACME93"
+          }
+        },
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 00:16:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 02:51:32 -0400",
+          "meta": {
+            "callsign": "ACME93"
+          }
+        },
+        {
+          "departure_airport": "CYYC",
+          "departure_time": "2020-09-14 23:18:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 02:54:32 -0400",
+          "meta": {
+            "callsign": "ACME93"
+          }
+        }
+      ]
+    },
+    {
+      "id": "825c08e5-74ac-471d-b740-9caa11ce4f77",
+      "legs": [
+        {
+          "departure_airport": "CYYC",
+          "departure_time": "2020-09-14 23:11:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 00:36:32 -0400",
+          "meta": {
+            "callsign": "ACME820"
+          }
+        },
+        {
+          "departure_airport": "CYVR",
+          "departure_time": "2020-09-14 23:16:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 03:51:32 -0400",
+          "meta": {
+            "callsign": "ACME820"
+          }
+        },
+        {
+          "departure_airport": "CYYZ",
+          "departure_time": "2020-09-14 23:59:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 04:34:32 -0400",
+          "meta": {
+            "callsign": "ACME820"
+          }
+        },
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 01:33:32 -0400",
+          "arrival_airport": "CYVR",
+          "arrival_time": "2020-09-15 04:08:32 -0400",
+          "meta": {
+            "callsign": "ACME820"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e8b77ff-9c7e-4f5e-a9f7-85a222afe8b6",
+      "legs": [
+        {
+          "departure_airport": "CYWG",
+          "departure_time": "2020-09-15 01:40:32 -0400",
+          "arrival_airport": "CYYZ",
+          "arrival_time": "2020-09-15 04:10:32 -0400",
+          "meta": {
+            "callsign": "ACME191"
+          }
+        }
+      ]
+    }
+  ]
