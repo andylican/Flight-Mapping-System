@@ -42,7 +42,7 @@ export default class Dashboard extends Component {
     }
 
     clearTimer = () => clearInterval(this.timer);
-    setTimer = () => this.timer = setInterval(() => this.setDate(moment(this.props.date).add(1, 'minutes')), 1000 / this.state.playSpeed);
+    setTimer = () => this.timer = setInterval(() => this.setDate(moment(this.props.date).add(1, 'minutes')), 1000 / Math.pow(2, this.state.playSpeed-1));
 
     setDate = date => {
         this.props.setDate(date);
@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
         if (num >= 1) {
             this.setState({playSpeed: num}, () => {
                 this.clearTimer();
-                this.setTimer();
+                if (this.state.play) this.setTimer();
             });
         }
     }
