@@ -1,0 +1,22 @@
+.ant-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ant-divider-horizontal {
+    margin: 12px 0;
+}
+
+.ant-row {
+    padding: 0 12px;
+}
+
+h3.ant-typography {
+    margin: 0;
+}
+
+.sider-header {
+    padding-top: 12px;
+}
