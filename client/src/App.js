@@ -1,16 +1,37 @@
-import React, {Component, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AircraftMap from "./components/AircraftMap/AircraftMap";
 import Dashboard from "./components/Dashboard/Dashboard";
 import './App.css';
-import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import moment from 'moment';
+import { Layout } from 'antd';
+import { getFlights } from './services/flights';
+import Sider from './components/Sider/Sider';
 
 function App() {
-  const [time, setTime] = useState(Date.now());
+  const [date, setDate] = useState(moment("09/15/2020").utc(false));
+  const [flights, setFlights] = useState([]);
+  const [flight, setFlight] = useState({}); // format: {flight: object, leg: number}
+  const [siderCollapsed, setSiderCollapsed] = useState(true);
+  const [center, setCenter] = useState([0,0]);
+
+  const setCurrFlight = (toSet) => {
+    console.log(toSet.flight);
+    setFlight(toSet);
+    setSiderCollapsed(false);
+  } 
+
+  useEffect(() => {
+    getFlights().then(res => setFlights(res.data));
+  }, []);
+
   return (
-    <div className="App">
-      <AircraftMap time={time}/>
-      <Dashboard time={time}/>
-    </div>
+    <Layout style={{minHeight: '100vh'}}>
+      <Sider collapsed={siderCollapsed} date={date} setDate={setDate} setCollapsed={setSiderCollapsed} currFlight={flight}/>
+      <Layout.Content style={{height: '90vh'}}>
+        <AircraftMap setCenter={setCenter} center={center} date={date} setCurrFlight={setCurrFlight} flights={flights}/>
+      </Layout.Content>
+      <Dashboard siderCollapsed={siderCollapsed} setCurrFlight={setCurrFlight} date={date} flights={flights} setDate={setDate}/>
+    </Layout>
   );
 }
 
