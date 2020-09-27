@@ -22,10 +22,10 @@ export default class AircraftMap extends Component {
     }
 
     render() {
-        const simDate = moment(this.props.date);
+        const simDate = moment(this.props.date).utc(false);
 
         return (
-            <Map center={[45.4, -75.7]} zoom={4} zoomControl={false}>
+            <Map useFlyTo attributionControl={false} center={this.props.center} zoom={4} zoomControl={false}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                 {this.props.flights && this.props.flights.map((flight, index) => {
                     return flight.legs.map((leg, i) => {
@@ -46,7 +46,10 @@ export default class AircraftMap extends Component {
                             const icon = renderToStaticMarkup(<i className="fas fa-plane" style={{fontSize: "25px", transform: `rotate(${rotation}deg)`}}/>);
                             return <div key={`${index}-${i}`}>
                                 <Polyline dashArray="4" color="black" weight={2} positions={leg.path} key={`p-${index}-${i}`}/>
-                                <Marker attribution={{index: index}} onclick={() => this.props.setCurrFlight({flight: flight, leg: i})} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>
+                                <Marker attribution={{index: index}} onclick={() => {
+                                    this.props.setCurrFlight({flight: flight, leg: i});
+                                    this.props.setCenter(leg.path[minsFromDepart]);
+                                    }} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>
                             </div>
                         }
                         return null;

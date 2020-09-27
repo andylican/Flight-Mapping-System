@@ -94,7 +94,7 @@ export default class Dashboard extends Component {
                 </h2>
 
                 <h4 className="element">
-                    <TimePicker onChange={this.setDate} value={this.props.date}/>
+                    <TimePicker onChange={this.setDate} format="HH:mm" value={this.props.date}/>
                 </h4>
                     
                 <h4 className="element">

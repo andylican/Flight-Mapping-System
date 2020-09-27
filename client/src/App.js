@@ -10,8 +10,15 @@ import Sider from './components/Sider/Sider';
 function App() {
   const [date, setDate] = useState(moment("09/15/2020").utc(false));
   const [flights, setFlights] = useState([]);
-  const [currFlight, setCurrFlight] = useState({}); // format: {flight: object, leg: number}
+  const [flight, setFlight] = useState({}); // format: {flight: object, leg: number}
   const [siderCollapsed, setSiderCollapsed] = useState(true);
+  const [center, setCenter] = useState([0,0]);
+
+  const setCurrFlight = (toSet) => {
+    console.log(toSet.flight);
+    setFlight(toSet);
+    setSiderCollapsed(false);
+  } 
 
   useEffect(() => {
     getFlights().then(res => setFlights(res.data));
@@ -19,9 +26,9 @@ function App() {
 
   return (
     <Layout style={{minHeight: '100vh'}}>
-      <Sider collapsed={siderCollapsed} setCollapsed={setSiderCollapsed} currFlight={currFlight}/>
+      <Sider collapsed={siderCollapsed} date={date} setDate={setDate} setCollapsed={setSiderCollapsed} currFlight={flight}/>
       <Layout.Content style={{height: '90vh'}}>
-        <AircraftMap date={date} setCurrFlight={setCurrFlight} flights={flights}/>
+        <AircraftMap setCenter={setCenter} center={center} date={date} setCurrFlight={setCurrFlight} flights={flights}/>
       </Layout.Content>
       <Dashboard siderCollapsed={siderCollapsed} setCurrFlight={setCurrFlight} date={date} flights={flights} setDate={setDate}/>
     </Layout>
