@@ -38,6 +38,9 @@ const findLegAirports = async leg => {
 
 flights = flights.map(async flight => {
     let legs = await Promise.all(flight.legs.map(findLegAirports));
+    legs.sort((a, b) => {
+        return a.departure_time - b.departure_time;
+    });
     return {
         ...flight,
         legs: legs,

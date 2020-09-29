@@ -8,7 +8,7 @@ require('dotenv').config();
 app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-    console.log(err ? err:'connected to mongodb');
+    console.log(err && 'connected to mongodb');
 });
 
 app.get("/flights", (req, res) => {
@@ -16,6 +16,11 @@ app.get("/flights", (req, res) => {
         docs = docs.map(val => val.toJSON());
         res.send(JSON.stringify(docs));
     });
+});
+
+app.get("/airport", (req, res) => {
+    req.params;
+    
 });
 
 app.listen(8080, () => console.log('listening on :8080'));
