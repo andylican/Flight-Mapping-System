@@ -72,12 +72,13 @@ export default class Dashboard extends Component {
                 <FaHelicopter/> Helicopters
             </Menu.Item>
         </Menu>;
+
         return (
             <div id="dashboard">
                 <Dropdown overlay={menu} trigger={['click']} placement="topLeft" arrow={true}>
                     <h4>
                         <Button style={{margin: 0}} onClick={e => e.preventDefault()}>
-                            {this.state.currentAircraft} <CaretUpOutlined style={{fontSize: "20px"}}/>
+                            {this.state.currentAircraft} <CaretUpOutlined style={{fontSize: "15px"}}/>
                         </Button>
                     </h4>
                 </Dropdown>
