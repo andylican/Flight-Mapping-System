@@ -1,6 +1,6 @@
 import { faPlane, faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, Col, Collapse, Descriptions, Divider, Layout, PageHeader, Progress, Row, Slider, Space, Tooltip, Typography } from 'antd';
+import { Col, Collapse, Divider, Layout, Row, Slider, Space, Tooltip, Typography } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { CloseOutlined } from '@ant-design/icons';
@@ -26,9 +26,10 @@ export default class Sider extends React.Component {
 
         if (flight) {
             const info = flight.legs[leg];
+            console.log(info);
             const departureMoment = moment(info.departure_time).utc(false);
             const arrivalMoment = moment(info.arrival_time).utc(false);
-            const minsIntoFlight = Math.round(moment.duration(this.props.date.diff(departureMoment)).asMinutes());
+            const minsIntoFlight = Math.max(0, Math.round(moment.duration(this.props.date.diff(departureMoment)).asMinutes())); // if flight has yet to depart, set time minsIntoFlight 0
             const [currLat, currLon] = info.path[Math.min(minsIntoFlight, info.path.length-1)];
 
             content = <>
@@ -45,13 +46,13 @@ export default class Sider extends React.Component {
                         <Typography.Title level={5}><Space><FontAwesomeIcon icon={faPlaneDeparture}/>Departure</Space></Typography.Title>    
                         <Tooltip title={info.departure_airport.name}><Typography.Text>{info.departure_airport.icao}</Typography.Text></Tooltip>
                         <Typography.Text>{departureMoment.format("ddd MM/DD")}</Typography.Text>
-                        <Typography.Text>{departureMoment.format("HH:mm:ss")}</Typography.Text>
+                        <Typography.Text>{departureMoment.format("HH:mm:ss Z")}</Typography.Text>
                     </Col>
                     <Col sm={12}>
                         <Typography.Title level={5}><Space><FontAwesomeIcon icon={faPlaneArrival}/>Arrival</Space></Typography.Title>
                         <Tooltip title={info.arrival_airport.name}><Typography.Text>{info.arrival_airport.icao}</Typography.Text></Tooltip>
                         <Typography.Text>{arrivalMoment.format("ddd MM/DD")}</Typography.Text>
-                        <Typography.Text>{arrivalMoment.format("HH:mm:ss")}</Typography.Text>
+                        <Typography.Text>{arrivalMoment.format("HH:mm:ss Z")}</Typography.Text>
                     </Col>
                 </Row>
                 <Divider/>
@@ -65,15 +66,15 @@ export default class Sider extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={10}>
-                        <Typography.Text strong>Current (lng, lat)</Typography.Text>
+                        <Typography.Text strong>Current (lat, lng)</Typography.Text>
                     </Col>
                     <Col xs={14}>
-                        <Typography.Text>{`${currLon.toFixed(6)}, ${currLat.toFixed(6)}`}</Typography.Text>
+                        <Typography.Text>{`${currLat.toFixed(6)}, ${currLon.toFixed(6)}`}</Typography.Text>
                     </Col>
                 </Row>
                 <Divider/>
                 <Collapse>
-                    <Collapse.Panel header={`Extra Info: `}>
+                    <Collapse.Panel header={`Leg: ${leg + 1} of ${flight.legs.length}`}>
                     </Collapse.Panel>
                     <Collapse.Panel header={`Extra Info: `}>
                     </Collapse.Panel>

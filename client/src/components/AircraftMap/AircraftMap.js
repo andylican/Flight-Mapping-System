@@ -63,4 +63,5 @@ export default class AircraftMap extends Component {
 
 AircraftMap.defaultProps = {
     flights: [],
+    center: [49.8951, 97.1384]
 }

@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import AircraftMap from "./components/AircraftMap/AircraftMap";
 import Dashboard from "./components/Dashboard/Dashboard";
+
 import './App.css';
 import moment from 'moment';
 import { Layout } from 'antd';
@@ -12,7 +13,7 @@ function App() {
   const [flights, setFlights] = useState([]);
   const [flight, setFlight] = useState({}); // format: {flight: object, leg: number}
   const [siderCollapsed, setSiderCollapsed] = useState(true);
-  const [center, setCenter] = useState([0,0]);
+  const [center, setCenter] = useState([49.8951, -97.1384]);
 
   const setCurrFlight = (toSet) => {
     console.log(toSet.flight);

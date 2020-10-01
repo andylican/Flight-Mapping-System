@@ -8,3 +8,12 @@ From the main directory, navigate to the backend folder and run the server:
 cd backend
 node server.js
 ```
+
+In another terminal, go to the **client** folder in the main directory and run the client:
+
+```
+cd client
+npm start
+```
+
+Navigate to localhost:3000 to view the app.
