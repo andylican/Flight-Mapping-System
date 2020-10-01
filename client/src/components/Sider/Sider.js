@@ -1,6 +1,6 @@
 import { faPlane, faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Collapse, Divider, Layout, Row, Slider, Space, Tooltip, Typography } from 'antd';
+import { Col, Collapse, Divider, Layout, Row, Slider, Space, Table, Tooltip, Typography } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { CloseOutlined } from '@ant-design/icons';
@@ -13,6 +13,7 @@ export default class Sider extends React.Component {
     }
 
     formatMins = mins => `${Math.floor(mins/60)}h ${mins % 60}m`;
+    convertTime = time => moment(time).utc(false);
     
     handleSlider = val => {
         const {flight, leg} = this.props.currFlight;
@@ -25,6 +26,7 @@ export default class Sider extends React.Component {
         let content = <Typography.Text>No Flight Selected :(</Typography.Text>;
 
         if (flight) {
+            console.log(flight.legs);
             const info = flight.legs[leg];
             console.log(info);
             const departureMoment = moment(info.departure_time).utc(false);
@@ -75,6 +77,11 @@ export default class Sider extends React.Component {
                 <Divider/>
                 <Collapse>
                     <Collapse.Panel header={`Leg: ${leg + 1} of ${flight.legs.length}`}>
+                        <Table rowClassName={(_, index) => leg === index ? 'ant-table-row-selected':''} rowKey={({meta, departure_time}) => `${meta}-${departure_time}`} size="small" pagination={false} dataSource={flight.legs}>
+                            <Table.Column title="Callsign" dataIndex="meta" render={({callsign}) => callsign}/>
+                            <Table.Column title="Depart" dataIndex="departure_time" render={(val) => this.convertTime(val).format("MM/DD HH:mm")}/>
+                            <Table.Column title="Arrive" dataIndex="arrival_time" render={(val) => this.convertTime(val).format("MM/DD HH:mm")}/>
+                        </Table>
                     </Collapse.Panel>
                     <Collapse.Panel header={`Extra Info: `}>
                     </Collapse.Panel>

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import AircraftMap from "./components/AircraftMap/AircraftMap";
 import Dashboard from "./components/Dashboard/Dashboard";
 
