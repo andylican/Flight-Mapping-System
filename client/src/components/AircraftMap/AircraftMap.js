@@ -35,22 +35,26 @@ export default class AircraftMap extends Component {
                             const minsFromDepart = Math.round(moment.duration(simDate.diff(dTime)).asMinutes());
                             // get current point and point closest to current without going over length or below 0
                             let [beg, end] = leg.path.length - 1 === minsFromDepart ? [minsFromDepart-1, minsFromDepart]:[minsFromDepart, minsFromDepart + 1];
-                            let rotation = Math.round(Math.asin((leg.path[end][0] - leg.path[minsFromDepart][0])/(leg.path[end][1] - leg.path[minsFromDepart][1])) * (-180/Math.PI));
+                            try {
+                                let rotation = Math.round(Math.asin((leg.path[minsFromDepart+1][0] - leg.path[minsFromDepart][0])/(leg.path[minsFromDepart+1][1] - leg.path[minsFromDepart][1])) * (-180/Math.PI));
+                            
+                                const lngNext = leg.path[end][1];
+                                const lngCurrent = leg.path[beg][1];
+                                if ((lngNext < lngCurrent || (lngNext > 170 && lngCurrent < -170)) && !(lngNext < -170 && lngCurrent > 170)) { //Checks if we need to rotate plane to the left
+                                    rotation += 180;
+                                }
 
-                            const lngNext = leg.path[end][1];
-                            const lngCurrent = leg.path[beg][1];
-                            if ((lngNext < lngCurrent || (lngNext > 170 && lngCurrent < -170)) && !(lngNext < -170 && lngCurrent > 170)) { //Checks if we need to rotate plane to the left
-                                rotation += 180;
-                            }
-
-                            const icon = renderToStaticMarkup(<i className="fas fa-plane" style={{fontSize: "25px", transform: `rotate(${rotation}deg)`}}/>);
-                            return <div key={`${index}-${i}`}>
-                                <Polyline dashArray="4" color="black" weight={2} positions={leg.path} key={`p-${index}-${i}`}/>
-                                <Marker attribution={{index: index}} onclick={() => {
-                                    this.props.setCurrFlight({flight: flight, leg: i});
-                                    this.props.setCenter(leg.path[minsFromDepart]);
-                                    }} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>
-                            </div>
+                                const icon = renderToStaticMarkup(<i className="fas fa-plane" style={{fontSize: "25px", transform: `rotate(${rotation}deg)`}}/>);
+                                return <div key={`${index}-${i}`}>
+                                    <Polyline dashArray="4" color="black" weight={2} positions={leg.path} key={`p-${index}-${i}`}/>
+                                    <Marker attribution={{index: index}} onclick={() => {
+                                        this.props.setCurrFlight({flight: flight, leg: i});
+                                        this.props.setCenter(leg.path[minsFromDepart]);
+                                        }} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>
+                                </div>;
+                            } catch (e) {
+                                console.log("Aircraft landed");
+                            }                            
                         }
                         return null;
                     });

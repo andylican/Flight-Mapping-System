@@ -29,9 +29,11 @@ export default class Dashboard extends Component {
         currentAircraft: "All Aircraft",
         playSpeed: 1,
         play: false,
+        searchedAircraft: "",
+        filteredAircrafts: []
     }
 
-    togglePlay = () => { 
+    togglePlay = () => {
         this.setState(prevState => ({play: !prevState.play}), () => {
             if (this.state.play) {
                 this.setTimer();
@@ -57,20 +59,36 @@ export default class Dashboard extends Component {
         }
     }
 
+    setSearchAircraft = e => { //Filters aircraft when searching
+        const searchedAircraft = e.target.value;
+        const filteredAircrafts = this.props.flights.filter(flight => flight.legs[0].meta.callsign.toLowerCase().includes(searchedAircraft));
+        this.setState({searchedAircraft, filteredAircrafts});
+    }
+
     render() {
         const menu = <Menu>
             <Menu.Item disabled>
-                <Input placeholder="Search Aircraft By Code" prefix={<SearchOutlined/>}/>
+                <Input placeholder="Search Aircraft By Code" prefix={<SearchOutlined/>} value={this.state.searchedAircraft} onChange={this.setSearchAircraft}/>
             </Menu.Item>
-            <Menu.Item onClick={() => this.setState({currentAircraft: "All Aircraft"})}>
-                <FaPlane/> <FaHelicopter/> All Aircraft
-            </Menu.Item>
-            <Menu.Item onClick={() => this.setState({currentAircraft: "Airplanes"})}>
-                <FaPlane/> Airplanes
-            </Menu.Item>
-            <Menu.Item onClick={() => this.setState({currentAircraft: "Helicopters"})}>
-                <FaHelicopter/> Helicopters
-            </Menu.Item>
+            {this.state.searchedAircraft === "" ?
+            <>
+                <Menu.Item onClick={() => this.setState({currentAircraft: "All Aircraft"})}>
+                    <FaPlane/> <FaHelicopter/> All Aircraft
+                </Menu.Item>
+                <Menu.Item onClick={() => this.setState({currentAircraft: "Airplanes"})}>
+                    <FaPlane/> Airplanes
+                </Menu.Item>
+                <Menu.Item onClick={() => this.setState({currentAircraft: "Helicopters"})}>
+                    <FaHelicopter/> Helicopters
+                </Menu.Item>
+            </> : <>
+                {this.state.filteredAircrafts.slice(0, 10).map(aircraft => 
+                    <Menu.Item onClick={() => this.setState({currentAircraft: aircraft.legs[0].meta.callsign})}>
+                        <FaPlane/> {aircraft.legs[0].meta.callsign}
+                    </Menu.Item>
+                )}
+            </>
+            }
         </Menu>;
 
         return (
