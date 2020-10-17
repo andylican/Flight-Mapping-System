@@ -26,11 +26,16 @@ import {
 
 export default class Dashboard extends Component {
     state = {
-        currentAircraft: "All Aircraft",
         playSpeed: 1,
         play: false,
         searchedAircraft: "",
         filteredAircrafts: []
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.currFlight !== prevProps.currFlight) {
+
+        }
     }
 
     togglePlay = () => {
@@ -51,7 +56,7 @@ export default class Dashboard extends Component {
     }
 
     setPlaySpeed = (num) => {
-        if (num >= 1) {
+        if (num >= 1 && num <= 10) {
             this.setState({playSpeed: num}, () => {
                 this.clearTimer();
                 if (this.state.play) this.setTimer();
@@ -65,22 +70,36 @@ export default class Dashboard extends Component {
         this.setState({searchedAircraft, filteredAircrafts});
     }
 
+    keyPress = e => {
+        if (e.key === " ") {
+            this.togglePlay();
+        }
+    }
+
+    keyDown = e => {
+        if (e.key === "ArrowRight") {
+            this.setPlaySpeed(this.state.playSpeed + 1);
+        } else if (e.key === "ArrowLeft") {
+            this.setPlaySpeed(this.state.playSpeed - 1);
+        }
+    }
+
     render() {
         const menu = <Menu>
             <Menu.Item disabled>
                 <Input placeholder="Search Aircraft By Code" prefix={<SearchOutlined/>} value={this.state.searchedAircraft} onChange={this.setSearchAircraft}/>
             </Menu.Item>
-            {this.state.searchedAircraft === "" ?
+            {this.state.searchedAircraft === "" && Object.keys(this.props.currFlight).length === 0 ?
             <>
                 <Menu.Item onClick={() => this.setState({currentAircraft: "All Aircraft"})}>
                     <FaPlane/> <FaHelicopter/> All Aircraft
                 </Menu.Item>
-                <Menu.Item onClick={() => this.setState({currentAircraft: "Airplanes"})}>
+                {/*<Menu.Item onClick={() => this.setState({currentAircraft: "Airplanes"})}>
                     <FaPlane/> Airplanes
                 </Menu.Item>
                 <Menu.Item onClick={() => this.setState({currentAircraft: "Helicopters"})}>
                     <FaHelicopter/> Helicopters
-                </Menu.Item>
+                </Menu.Item>*/}
             </> : <>
                 {this.state.filteredAircrafts.slice(0, 10).map(aircraft => 
                     <Menu.Item onClick={() => this.setState({currentAircraft: aircraft.legs[0].meta.callsign})}>
@@ -91,17 +110,19 @@ export default class Dashboard extends Component {
             }
         </Menu>;
 
+        const {flight, leg} = this.props.currFlight;
+
         return (
-            <div id="dashboard">
+            <div id="dashboard" onKeyPress={this.keyPress} onKeyDown={this.keyDown} tabIndex={0}>
                 <Dropdown overlay={menu} trigger={['click']} placement="topLeft" arrow={true}>
                     <h4>
                         <Button style={{margin: 0}} onClick={e => e.preventDefault()}>
-                            {this.state.currentAircraft} <CaretUpOutlined style={{fontSize: "15px"}}/>
+                            {Object.keys(this.props.currFlight).length === 0 ? "All Aircraft" : flight.legs[leg].meta.callsign} <CaretUpOutlined style={{fontSize: "15px"}}/>
                         </Button>
                     </h4>
                 </Dropdown>
 
-                <h2 className="element">
+                <h2 className="element" onKeyPress={() => console.log("hi")}>
                     x {this.state.playSpeed}
                 </h2>
 

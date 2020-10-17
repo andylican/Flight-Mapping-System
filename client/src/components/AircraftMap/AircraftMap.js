@@ -7,18 +7,40 @@ import moment from 'moment';
 
 export default class AircraftMap extends Component {
     state = {
-        aircraft: [
-            {
-                lat: 45.4,
-                lng: -75.7,
-                type: "airplane"
-            },
-            {
-                lat: 60,
-                lng: -80,
-                type: "helicopter"
+
+    }
+
+    /*componentDidUpdate(prevProps, prevState) {
+        if (this.props.flights !== prevProps.flights) {
+            let aircraft = this.props.flights;
+            aircraft.forEach(flight => {
+                flight.legs.forEach(leg => {
+                    leg.selected = true;
+                });
+            });
+
+            //console.log(aircraft);
+            this.setState({aircraft});
+        }   
+    }*/
+
+    selectAircraft = (flight, leg) => {
+        this.setState({selected: true}); //Shows polyline for specified aircraft
+        const aircraft = this.state.aircraft;
+
+        aircraft.forEach(air => {
+            if (air.id !== flight.id) {
+                air.legs.forEach(l => l.selected = false);
+            } else {
+                air.legs.forEach(l => {
+                    if (l !== leg) {
+                        l.selected = false;
+                    }
+                })
             }
-        ]
+        });
+
+        this.setState({aircraft});
     }
 
     render() {
@@ -46,11 +68,13 @@ export default class AircraftMap extends Component {
 
                                 const icon = renderToStaticMarkup(<i className="fas fa-plane" style={{fontSize: "25px", transform: `rotate(${rotation}deg)`}}/>);
                                 return <div key={`${index}-${i}`}>
-                                    <Polyline dashArray="4" color="black" weight={2} positions={leg.path} key={`p-${index}-${i}`}/>
-                                    <Marker attribution={{index: index}} onclick={() => {
+                                    {this.props.selected && leg.selected && <Polyline dashArray="4" color="black" weight={2} positions={leg.path} key={`p-${index}-${i}`}/>}
+                                    {leg.selected && <Marker attribution={{index: index}} onclick={() => {
+                                        this.setState({selected: true});
+                                        this.props.selectAircraft(flight, leg);
                                         this.props.setCurrFlight({flight: flight, leg: i});
                                         this.props.setCenter(leg.path[minsFromDepart]);
-                                        }} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>
+                                        }} key={`m-${index}-${i}`} position={leg.path[minsFromDepart]} icon={divIcon({html: icon, iconSize: [35, 25]})}/>}
                                 </div>;
                             } catch (e) {
                                 console.log("Aircraft landed");

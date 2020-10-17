@@ -26,9 +26,9 @@ export default class Sider extends React.Component {
         let content = <Typography.Text>No Flight Selected :(</Typography.Text>;
 
         if (flight) {
-            console.log(flight.legs);
+            //console.log(flight.legs);
             const info = flight.legs[leg];
-            console.log(info);
+            //console.log(info);
             const departureMoment = moment(info.departure_time).utc(false);
             const arrivalMoment = moment(info.arrival_time).utc(false);
             const minsIntoFlight = Math.max(0, Math.round(moment.duration(this.props.date.diff(departureMoment)).asMinutes())); // if flight has yet to depart, set time minsIntoFlight 0
@@ -38,7 +38,10 @@ export default class Sider extends React.Component {
                 <Row className="sider-header">
                     <Col xs={4} style={{alignItems: 'start', justifyContent: 'start'}}>
                         <CloseOutlined className="ant-page-header-back-button" style={{fontSize: '1.17em'}}
-                            onClick={() => this.props.setCollapsed(true)}/>
+                            onClick={() => {
+                                this.props.exit();
+                                this.props.setCollapsed(true);
+                            }}/>
                     </Col>
                     <Col xs={16}><Typography.Title level={3}><Space><FontAwesomeIcon icon={faPlane}/>{info.meta.callsign}</Space></Typography.Title></Col>
                 </Row>
