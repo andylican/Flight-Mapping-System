@@ -32,12 +32,6 @@ export default class Dashboard extends Component {
         filteredAircrafts: []
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.currFlight !== prevProps.currFlight) {
-
-        }
-    }
-
     togglePlay = () => {
         this.setState(prevState => ({play: !prevState.play}), () => {
             if (this.state.play) {
@@ -85,6 +79,8 @@ export default class Dashboard extends Component {
     }
 
     render() {
+        const simDate = moment(this.props.date).utc(false);
+
         const menu = <Menu>
             <Menu.Item disabled>
                 <Input placeholder="Search Aircraft By Code" prefix={<SearchOutlined/>} value={this.state.searchedAircraft} onChange={this.setSearchAircraft}/>
@@ -101,10 +97,22 @@ export default class Dashboard extends Component {
                     <FaHelicopter/> Helicopters
                 </Menu.Item>*/}
             </> : <>
-                {this.state.filteredAircrafts.slice(0, 10).map(aircraft => 
-                    <Menu.Item onClick={() => this.setState({currentAircraft: aircraft.legs[0].meta.callsign})}>
-                        <FaPlane/> {aircraft.legs[0].meta.callsign}
-                    </Menu.Item>
+                {this.state.filteredAircrafts.slice(0, 5).map(aircraft => 
+                    aircraft.legs.map(leg => 
+                        <Menu.Item onClick={() => {
+                            this.props.setCurrFlight({flight: aircraft, leg: aircraft.legs.indexOf(leg)});
+                            this.props.selectAircraft(aircraft, leg);
+                            const aTime = moment(leg.arrival_time);
+                            const dTime = moment(leg.departure_time);
+
+                            if (simDate.isBetween(dTime, aTime)) {
+                                const minsFromDepart = Math.round(moment.duration(simDate.diff(dTime)).asMinutes());
+                                this.props.setCenter(leg.path[minsFromDepart]);
+                            }
+                        }}>
+                            <FaPlane/> {leg.meta.callsign} - Leg {aircraft.legs.indexOf(leg)+1}
+                        </Menu.Item>
+                    )
                 )}
             </>
             }

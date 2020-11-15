@@ -30,6 +30,8 @@ function App() {
             air.legs.forEach(l => {
                 if (l !== leg) {
                     l.selected = false;
+                } else {
+                    l.selected = true;
                 }
             })
         }
@@ -67,7 +69,8 @@ function App() {
       <Layout.Content style={{height: '90vh'}}>
         <AircraftMap setCenter={setCenter} center={center} date={date} setCurrFlight={setCurrFlight} flights={flights} selectAircraft={selectAircraft} selected={selected}/>
       </Layout.Content>
-      <Dashboard siderCollapsed={siderCollapsed} setCurrFlight={setCurrFlight} date={date} flights={flights} setDate={setDate} currFlight={flight}/>
+      <Dashboard siderCollapsed={siderCollapsed} setCurrFlight={setCurrFlight} selectAircraft={selectAircraft}
+      setCenter={setCenter} date={date} flights={flights} setDate={setDate} currFlight={flight}/>
     </Layout>
   );
 }
